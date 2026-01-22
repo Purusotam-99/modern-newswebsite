@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modern News</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">ModernNews</div>
+    <ul class="nav-links">
+      <li data-category="general">Home</li>
+      <li data-category="world">World</li>
+      <li data-category="technology">Technology</li>
+      <li data-category="sports">Sports</li>
+      <li data-category="business">Business</li>
+      <li data-category="entertainment">Entertainment</li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero" id="hero">
+    <div class="hero-overlay">
+      <h1 id="heroTitle"></h1>
+      <p id="heroDesc"></p>
+    </div>
+  </header>
+
+  <!-- Controls -->
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="Search news..." />
+    <button id="searchBtn">Search</button>
+  </div>
+
+  <!-- News Grid -->
+  <section id="newsContainer" class="news-grid"></section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Subscribe to our newsletter</p>
+    <input type="email" placeholder="Enter your email" />
+    <button>Subscribe</button>
+    <p>© 2026 ModernNews</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
