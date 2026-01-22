@@ -13,19 +13,19 @@ const darkToggle = document.getElementById("darkToggle");
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navLinks");
 
-let currentCategory = "general";
+let currentCategory = "";
 
-/* Dark Mode */
+/* 🌙 Dark Mode */
 darkToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-/* Mobile Menu */
+/* 🍔 Mobile Menu */
 menuToggle.addEventListener("click", () => {
   navMenu.classList.toggle("show");
 });
 
-/* Skeleton Loader */
+/* ⚡ Skeleton Loader */
 function showSkeletons() {
   newsContainer.innerHTML = "";
   for (let i = 0; i < 6; i++) {
@@ -35,64 +35,72 @@ function showSkeletons() {
   }
 }
 
-async function fetchNews(category = "general", query = "") {
+/* 📰 Fetch News (GNews API) */
+async function fetchNews(category = "", query = "") {
   showSkeletons();
 
-  let url = `${BASE_URL}&category=${category}&apiKey=${API_KEY}`;
+  let url = `${BASE_URL}&apikey=${API_KEY}`;
+
+  if (category) {
+    url += `&topic=${category}`;
+  }
+
   if (query) {
-    url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&apiKey=${API_KEY}`;
+    url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(
+      query
+    )}&lang=en&country=us&apikey=${API_KEY}`;
   }
 
   try {
-    const response = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url));
+    const response = await fetch(url);
     const data = await response.json();
 
     if (!data.articles || data.articles.length === 0) {
       newsContainer.innerHTML = "<p>No news found.</p>";
+      trendingContainer.innerHTML = "";
       return;
     }
 
     displayHero(data.articles[0]);
     displayTrending(data.articles.slice(1, 6));
     displayNews(data.articles.slice(6));
-
   } catch (error) {
     console.error(error);
     newsContainer.innerHTML = "<p>Error loading news.</p>";
   }
 }
 
-/* Hero */
+/* 🎯 Hero Section */
 function displayHero(article) {
-  hero.style.backgroundImage = `url(${article.urlToImage || ""})`;
+  hero.style.backgroundImage = `url(${article.image || ""})`;
   heroTitle.textContent = article.title || "";
   heroDesc.textContent = article.description || "";
 }
 
-/* Trending */
+/* 🔥 Trending Slider */
 function displayTrending(articles) {
   trendingContainer.innerHTML = "";
 
-  articles.forEach(article => {
+  articles.forEach((article) => {
     const card = document.createElement("div");
     card.className = "trending-card";
     card.innerHTML = `
-      <img src="${article.urlToImage || "https://via.placeholder.com/300"}">
+      <img src="${article.image || "https://via.placeholder.com/300"}">
       <h4>${article.title}</h4>
     `;
     trendingContainer.appendChild(card);
   });
 }
 
-/* News Grid */
+/* 🗞 News Grid */
 function displayNews(articles) {
   newsContainer.innerHTML = "";
 
-  articles.forEach(article => {
+  articles.forEach((article) => {
     const card = document.createElement("div");
     card.className = "news-card";
     card.innerHTML = `
-      <img src="${article.urlToImage || "https://via.placeholder.com/300"}">
+      <img src="${article.image || "https://via.placeholder.com/300"}">
       <div class="content">
         <h3>${article.title}</h3>
         <p>${article.description || ""}</p>
@@ -103,19 +111,20 @@ function displayNews(articles) {
   });
 }
 
-/* Category Filter */
-navLinks.forEach(link => {
+/* 🧭 Category Filter */
+navLinks.forEach((link) => {
   link.addEventListener("click", () => {
-    currentCategory = link.dataset.category;
+    currentCategory = link.dataset.category || "";
     fetchNews(currentCategory);
     navMenu.classList.remove("show");
   });
 });
 
-/* Search */
+/* 🔍 Search */
 searchBtn.addEventListener("click", () => {
   const query = searchInput.value.trim();
   if (query) fetchNews("", query);
 });
 
+/* 🚀 Initial Load */
 fetchNews();
