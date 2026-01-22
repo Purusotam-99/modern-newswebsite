@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Modern News</title>
 
-  <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -17,7 +16,10 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="logo">ModernNews</div>
-    <ul class="nav-links">
+
+    <div class="menu-toggle" id="menuToggle">☰</div>
+
+    <ul class="nav-links" id="navLinks">
       <li data-category="general">Home</li>
       <li data-category="world">World</li>
       <li data-category="technology">Technology</li>
@@ -25,9 +27,17 @@
       <li data-category="business">Business</li>
       <li data-category="entertainment">Entertainment</li>
     </ul>
+
+    <button id="darkToggle" class="dark-toggle">🌙</button>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- Trending Slider -->
+  <section class="trending">
+    <h2>🔥 Trending</h2>
+    <div id="trendingContainer" class="trending-slider"></div>
+  </section>
+
+  <!-- Hero -->
   <header class="hero" id="hero">
     <div class="hero-overlay">
       <h1 id="heroTitle"></h1>
