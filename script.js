@@ -35,7 +35,7 @@ function showSkeletons() {
   }
 }
 
-/* 📰 Fetch News (GNews API) */
+/* 📰 Fetch News (GNews + Proxy) */
 async function fetchNews(category = "", query = "") {
   showSkeletons();
 
@@ -73,7 +73,6 @@ async function fetchNews(category = "", query = "") {
       "<p style='text-align:center;'>API limit reached or network error.</p>";
   }
 }
-
 
 /* 🎯 Hero Section */
 function displayHero(article) {
@@ -131,6 +130,30 @@ searchBtn.addEventListener("click", () => {
   if (query) fetchNews("", query);
 });
 
+/* ============================= */
+/* 📱 Swipe Gestures for Trending */
+/* ============================= */
+let startX = 0;
+let scrollLeft = 0;
+const slider = document.getElementById("trendingContainer");
+
+if (slider) {
+  slider.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+
+  slider.addEventListener("touchmove", (e) => {
+    const x = e.touches[0].pageX - slider.offsetLeft;
+    const walk = (startX - x) * 1.2;
+    slider.scrollLeft = scrollLeft + walk;
+  });
+
+  slider.addEventListener("touchend", () => {
+    startX = 0;
+    scrollLeft = 0;
+  });
+}
+
 /* 🚀 Initial Load */
 fetchNews();
-
