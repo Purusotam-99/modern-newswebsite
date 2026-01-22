@@ -39,7 +39,7 @@ function showSkeletons() {
 async function fetchNews(category = "", query = "") {
   showSkeletons();
 
-  let url = `${BASE_URL}&apikey=${API_KEY}`;
+  let url = `${BASE_URL}&apikey=${API_KEY}&max=10`;
 
   if (category) {
     url += `&topic=${category}`;
@@ -48,11 +48,14 @@ async function fetchNews(category = "", query = "") {
   if (query) {
     url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(
       query
-    )}&lang=en&country=us&apikey=${API_KEY}`;
+    )}&lang=en&country=us&apikey=${API_KEY}&max=10`;
   }
 
+  const proxyUrl =
+    "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+
   try {
-    const response = await fetch(url);
+    const response = await fetch(proxyUrl);
     const data = await response.json();
 
     if (!data.articles || data.articles.length === 0) {
@@ -65,10 +68,12 @@ async function fetchNews(category = "", query = "") {
     displayTrending(data.articles.slice(1, 6));
     displayNews(data.articles.slice(6));
   } catch (error) {
-    console.error(error);
-    newsContainer.innerHTML = "<p>Error loading news.</p>";
+    console.error("Fetch failed:", error);
+    newsContainer.innerHTML =
+      "<p style='text-align:center;'>API limit reached or network error.</p>";
   }
 }
+
 
 /* 🎯 Hero Section */
 function displayHero(article) {
@@ -128,3 +133,4 @@ searchBtn.addEventListener("click", () => {
 
 /* 🚀 Initial Load */
 fetchNews();
+
